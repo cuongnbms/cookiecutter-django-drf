@@ -110,5 +110,4 @@ logs/*
 
 staticfiles/
 media/
-
-!**.gitkeep
+tmp/
