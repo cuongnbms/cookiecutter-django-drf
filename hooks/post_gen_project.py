@@ -198,8 +198,8 @@ def set_flags_in_envs(postgres_user, celery_flower_user, debug=False):
 
 
 def set_flags_in_settings_files():
-    set_django_secret_key(os.path.join("config", "environments", "local.env"))
-    set_django_secret_key(os.path.join("config", "environments", "staging.env"))
+    set_django_secret_key(os.path.join("env", "local.env"))
+    set_django_secret_key(os.path.join("env", "staging.env"))
     
 
 def remove_envs_and_associated_files():
