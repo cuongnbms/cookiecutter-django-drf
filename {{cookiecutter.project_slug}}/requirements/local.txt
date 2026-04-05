@@ -1,7 +1,7 @@
 -r base.txt
 
-django-debug-toolbar==6.1.0
-django-extensions==4.1.0
+django-debug-toolbar==6.3.0
+django-extensions==4.1
 {%- if cookiecutter.use_postgres == "y" %}
 psycopg
 {%- endif %}
