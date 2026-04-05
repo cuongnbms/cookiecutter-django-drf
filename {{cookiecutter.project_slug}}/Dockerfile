@@ -1,22 +1,41 @@
-FROM ubuntu:24.04
+FROM python:3.12-slim AS builder
 
-ENV REFRESHED_AT=2024-03-22
-ENV LANG=en_US.UTF-8
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update -qq
-RUN apt-get install locales && locale-gen en_US.UTF-8
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3 python3-pip build-essential python3-dev \
-    libxml2-dev libxslt1-dev libssl-dev libffi-dev vim git wget libpq-dev
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    build-essential libpq-dev git && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN echo 'alias pm="python3 manage.py"' >> ~/.bashrc
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 WORKDIR /app
-COPY requirements/ /app/requirements/
-RUN pip3 install -r /app/requirements/production.txt
-COPY . /app
+
+COPY pyproject.toml uv.lock* ./
+RUN uv sync --frozen --no-dev --no-install-project
+
+COPY . .
+
+RUN uv run python3 manage.py collectstatic --noinput
+
+# ── Runtime ──────────────────────────────────────────────
+FROM python:3.12-slim
+
+ENV PYTHONUNBUFFERED=1
+ENV LANG=en_US.UTF-8
+
+RUN apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    libpq5 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY --from=builder /app /app
+RUN chmod +x ./entrypoint.sh
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8000
 
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["./entrypoint.sh"]

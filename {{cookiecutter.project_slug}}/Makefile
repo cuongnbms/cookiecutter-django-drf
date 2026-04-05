@@ -1,6 +1,9 @@
 build:
 	docker-compose build {{cookiecutter.project_slug}}
 
+install:
+	uv sync
+
 fix-lint:
 	 black --line-length 120 --exclude="migrations" .
 

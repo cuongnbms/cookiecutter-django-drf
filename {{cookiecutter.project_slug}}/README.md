@@ -8,7 +8,9 @@
 
 ## Step 2: Install requirements
 
-`pip3 install -r requirements.txt`
+```
+make install
+```
 
 ## Step 3: Run
 
