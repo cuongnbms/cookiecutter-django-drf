@@ -17,7 +17,7 @@ eggs/
 lib/
 lib64/
 parts/
-sdist/
+sdist/{{cookiecutter.project_slug}}/.gitignore
 var/
 wheels/
 *.egg-info/
@@ -104,7 +104,6 @@ venv.bak/
 .vscode/
 
 dbs/*
-logs/*
 {{cookiecutter.project_slug}}/static/material
 {{cookiecutter.project_slug}}/static/coreui/node_modules/
 
