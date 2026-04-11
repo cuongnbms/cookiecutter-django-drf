@@ -9,7 +9,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/admin/'), name='admin'),
     path('admin/', admin.site.urls),
 
-    path('v1/', include('{{cookiecutter.project_slug}}.core.authx.urls')),
+    path('v1/', include('{{cookiecutter.project_slug}}.apps.authx.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

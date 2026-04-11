@@ -31,8 +31,8 @@ INSTALLED_APPS = [
     'django_dramatiq',
     {%- endif %}
 
-    '{{cookiecutter.project_slug}}.core.users',
-    '{{cookiecutter.project_slug}}.core.authx',
+    '{{cookiecutter.project_slug}}.apps.users',
+    '{{cookiecutter.project_slug}}.apps.authx',
 ]
 
 MIDDLEWARE = [

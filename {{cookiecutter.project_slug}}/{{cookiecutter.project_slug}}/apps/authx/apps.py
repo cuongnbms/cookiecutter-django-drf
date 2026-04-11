@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class UsersConfig(AppConfig):
-    name = '{{cookiecutter.project_slug}}.core.users'
-    verbose_name = "Users"
+class AuthxConfig(AppConfig):
+    name = '{{cookiecutter.project_slug}}.apps.authx'
+    verbose_name = "Auth"
 
     def ready(self):
         """Override this to put in:

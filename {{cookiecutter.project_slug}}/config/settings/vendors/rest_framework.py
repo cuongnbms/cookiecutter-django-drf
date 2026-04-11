@@ -9,16 +9,16 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        '{{cookiecutter.project_slug}}.core.authx.authentication.UserJWTAuthentication',
+        '{{cookiecutter.project_slug}}.apps.authx.authentication.UserJWTAuthentication',
     ),
 
-    'EXCEPTION_HANDLER': 'common.exceptions.handler.custom_exception_handler',
+    'EXCEPTION_HANDLER': '{{cookiecutter.project_slug}}.common.exceptions.handler.custom_exception_handler',
 
-    'DEFAULT_PAGINATION_CLASS': 'common.pagination.StandardPagination',
+    'DEFAULT_PAGINATION_CLASS': '{{cookiecutter.project_slug}}.common.pagination.StandardPagination',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 
     'DEFAULT_THROTTLE_CLASSES': [
-        'common.throttling.CloudflareScopedRateThrottle',
+        '{{cookiecutter.project_slug}}.common.throttling.CloudflareScopedRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
         'send_email': '1/min',
