@@ -12,7 +12,7 @@ REST_FRAMEWORK = {
         '{{cookiecutter.project_slug}}.apps.authx.authentication.UserJWTAuthentication',
     ),
 
-    'EXCEPTION_HANDLER': '{{cookiecutter.project_slug}}.common.exceptions.handler.custom_exception_handler',
+    'EXCEPTION_HANDLER': '{{cookiecutter.project_slug}}.common.exception_handler.custom_exception_handler',
 
     'DEFAULT_PAGINATION_CLASS': '{{cookiecutter.project_slug}}.common.pagination.StandardPagination',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

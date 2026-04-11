@@ -11,22 +11,18 @@ logger = logging.getLogger('apps')
 
 
 def custom_exception_handler(exc, context):
-    # Call REST framework's default exception handler first,
-    # to get the standard error response.
-    response = exception_handler(exc, context)
-
     if isinstance(exc, Http404):
         exc = exceptions.NotFound()
     elif isinstance(exc, PermissionDenied):
         exc = exceptions.PermissionDenied()
 
-    # Add default error code to the response.
+    response = exception_handler(exc, context)
+
     if response is not None:
-        data = {
+        response.data = {
             "code": exc.default_code,
-            "detail": exc.detail,
+            "detail": response.data.get("detail", response.data),
         }
-        response.data = data
     else:
         logger.exception(exc)
         data = {
