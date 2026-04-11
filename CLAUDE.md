@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
 
 ## What This Is
 
@@ -15,17 +15,17 @@ A **Cookiecutter template** that generates Django + Django REST Framework projec
 ## Commands (Inside Generated Project)
 
 ```bash
+make install                # uv sync
 make run                    # runserver on 0.0.0.0:8000
 make build                  # docker-compose build
-make fix-lint               # black --line-length 120 --exclude="migrations"
+make lint                   # ruff check
+make fix-lint               # ruff check --fix + ruff format
 make worker                 # dramatiq worker (default queue)
 make createadmin            # superuser admin/admin
 make remove-all-migrations  # delete all migration files
 
 pytest                      # run all tests (--reuse-db enabled)
-pytest path/to/test_file.py::TestClass::test_method  # single test
-
-./startapp.sh <app_name>    # scaffold new app + auto-register in settings and urls
+pytest path/to/test.py::TestClass::test_method  # single test
 ```
 
 ## Architecture
@@ -43,26 +43,20 @@ Environment is driven by `STAGE` env var (defaults to `local`), which loads `env
 
 ### App Structure
 
-Apps live under `{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}/`. Two core apps are pre-scaffolded:
+Apps live under `{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}/apps/`. Two apps are pre-scaffolded:
 
-- **`core/users`** — custom user model
-- **`core/authx`** — JWT authentication with custom `UserJWTAuthentication` class, used as the default DRF auth backend
+- **`apps/users`** — custom user model
+- **`apps/authx`** — JWT authentication with custom `UserJWTAuthentication` class
 
 ### Shared Utilities (`common/`)
 
-- **`models.py`** — `TimeStampedModel` (abstract base with `created_at`/`modified_at`), `execute_sql()` helper
-- **`exceptions/handler.py`** — custom DRF exception handler returning `{code, detail}` format
+Located at `{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}/common/`:
+
+- **`exception_handler.py`** — custom DRF exception handler returning `{code, detail}` format
+- **`models.py`** — `TimeStampedModel` (abstract base with `created_at`/`modified_at`)
 - **`pagination.py`** — `StandardPagination` (24/page) and `LargePagination` (1000/page)
 - **`throttling.py`** — Cloudflare-aware rate throttling
-- **`validation.py`** — shared validators
-
-### URL Convention
-
-URLs are versioned under `v1/`. The `startapp.sh` script auto-appends `path('v1/<app_name>/', ...)` to `config/urls.py`. Sentinel comments `# APPEND_NEW_APP #` and `# APPEND_NEW_URL #` are used by the script — do not remove them.
-
-### API Docs
-
-drf-spectacular provides OpenAPI at `/docs/`, Swagger at `/docs/swagger/`, Redoc at `/docs/redoc/` (gated by `ENABLE_API_DOC` setting).
+- **`filters.py`** — custom django-filter backends
 
 ### DRF Defaults
 
@@ -70,3 +64,11 @@ drf-spectacular provides OpenAPI at `/docs/`, Swagger at `/docs/swagger/`, Redoc
 - `AllowAny` default permissions
 - `django-filter` as default filter backend
 - Custom exception handler with structured `{code, detail}` responses
+
+### URL Convention
+
+All API endpoints are versioned under `v1/`.
+
+### API Docs
+
+drf-spectacular provides OpenAPI at `/docs/`, Swagger at `/docs/swagger/`, Redoc at `/docs/redoc/` (gated by `ENABLE_API_DOC` setting).
