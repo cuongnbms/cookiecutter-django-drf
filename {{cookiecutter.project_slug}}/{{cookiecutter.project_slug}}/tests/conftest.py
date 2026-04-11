@@ -1,7 +1,5 @@
 import uuid
 
-from mixer.backend.django import mixer
-
 import pytest
 
 from .test_helpers import ExtAPIClient
@@ -17,11 +15,7 @@ def create_user(django_user_model):
 
     return make_user
 
+
 @pytest.fixture
 def api_client():
     return ExtAPIClient()
-
-
-@pytest.fixture
-def django_mixer():
-    return mixer

@@ -92,9 +92,10 @@ Settings are imported in order by `config/settings/__init__.py`:
 
 ### Testing
 
-- Tests live in `{{cookiecutter.project_slug}}/tests/` or per-app `apps/<app>/tests/`
+- **App tests** go in `apps/<app>/tests/` — keep tests next to the code they test
+- **Shared test infrastructure** lives in `{{cookiecutter.project_slug}}/tests/` — fixtures, helpers, base classes only
 - Use `ExtAPIClient` from `tests/test_helpers.py` for API tests
-- `conftest.py` provides `create_user`, `api_client` fixtures
+- `tests/conftest.py` provides shared fixtures: `create_user`, `api_client`, `django_mixer`
 
 ### Linting
 
