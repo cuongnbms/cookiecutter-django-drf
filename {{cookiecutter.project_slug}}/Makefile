@@ -4,8 +4,12 @@ build:
 install:
 	uv sync
 
+lint:
+	ruff check .
+
 fix-lint:
-	 black --line-length 120 --exclude="migrations" .
+	ruff check --fix .
+	ruff format .
 
 run:
 	python3 manage.py runserver 0.0.0.0:8000

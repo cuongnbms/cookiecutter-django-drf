@@ -36,12 +36,27 @@ dependencies = [
 [dependency-groups]
 dev = [
     "faker==40.12.0",
-    "flake8==7.3.0",
-    "flake8-colors==0.1.9",
     "ipython==9.12.0",
     "pytest-django==4.12.0",
     "pytest-xdist==3.8.0",
+    "ruff==0.11.8",
 ]
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    "migrations",
+    ".venv",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["{{cookiecutter.project_slug}}", "common", "config"]
 
 [tool.uv.sources]
 {%- if cookiecutter.use_dramatiq == "y" %}
