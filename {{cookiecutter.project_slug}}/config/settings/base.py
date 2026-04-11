@@ -33,7 +33,6 @@ INSTALLED_APPS = [
 
     '{{cookiecutter.project_slug}}.core.users',
     '{{cookiecutter.project_slug}}.core.authx',
-    # APPEND_NEW_APP #
 ]
 
 MIDDLEWARE = [

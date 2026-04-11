@@ -1,10 +1,5 @@
-import re
-import requests
 import urllib.parse as urlparse
 from urllib.parse import urlencode
-from time import time
-import math
-from django.conf import settings
 
 
 def get_param(request, key, default_value):
@@ -27,13 +22,13 @@ def get_page(request):
         if page < 1:
             page = 1
 
-        per_page = int(request.GET.get('per_page', 90))
+        per_page = int(request.GET.get('per_page', 24))
         if per_page < 0:
-            per_page = 90
+            per_page = 24
 
         return page, per_page
     except Exception:
-        return 1, 90
+        return 1, 24
 
 
 def get_limit_offset(request):
@@ -63,45 +58,3 @@ def get_prev_next_link(request):
 
 def standardize_keyword(keyword):
     return keyword.strip().lower()
-
-
-def verify_recaptcha(g_recaptcha_response):
-    if not settings.IS_ENABLE_RECAPTCHA:
-        return True
-
-    querystring = {
-        "secret": settings.RECAPTCHA_SECRET_KEY,
-        "response": g_recaptcha_response
-    }
-    # TODO: remove it
-    # return g_recaptcha_response
-    response = requests.post(
-        "https://google.com/recaptcha/api/siteverify", params=querystring)
-    data = response.json()
-    if not (response.status_code == 200 and data["success"]):
-        return False
-    return True
-
-
-def standardize_email(email):
-    email = email.lower().strip()
-
-    if email.find('@gmail.com') > 0:
-        first_part = email.split('@gmail.com')[0]
-
-        first_part = re.sub(r'\.', '', first_part)
-        first_part = re.sub(r'\+\w+$', '', first_part)
-
-        email = '{}@gmail.com'.format(first_part)
-
-    return email
-
-
-def errors_to_str(errors):
-    try:
-        result = ""
-        for key, value in errors.items():
-            result += "{} - {}<br/>".format(key, value[0])
-        return result
-    except Exception:
-        return "Invalidate input"

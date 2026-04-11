@@ -14,7 +14,6 @@ def custom_exception_handler(exc, context):
     # Call REST framework's default exception handler first,
     # to get the standard error response.
     response = exception_handler(exc, context)
-    logger.exception(exc)
 
     if isinstance(exc, Http404):
         exc = exceptions.NotFound()
@@ -29,6 +28,7 @@ def custom_exception_handler(exc, context):
         }
         response.data = data
     else:
+        logger.exception(exc)
         data = {
             "code": "unexpected_error",
             "detail": "Oops! Something went wrong",

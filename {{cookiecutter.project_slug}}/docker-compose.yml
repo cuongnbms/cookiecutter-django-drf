@@ -1,15 +1,7 @@
-version: '2.4'
-
 x-default: &default
     networks:
         - {{cookiecutter.project_slug}}-net
-    # cpus: 0.5
-    # mem_limit: 500M
     restart: always
-    # init: true
-    # privileged: true
-    # stdin_open: true
-    # tty: true
     logging:
         driver: "json-file"
         options:
@@ -17,7 +9,9 @@ x-default: &default
             max-file: "3"
 
 volumes:
+{%- if cookiecutter.use_postgres == "y" %}
     postgres-data:
+{%- endif %}
     redis-data:
 
 networks:
@@ -30,45 +24,37 @@ services:
     #     build: .
     #     image: {{cookiecutter.project_slug}}:{{cookiecutter.version}}
     #     ports:
-    #         - "0.0.0.0:8000:8000"
-    #     # volumes:
-    #     #     - ./:/app
+    #         - "127.0.0.1:8000:8000"
     #     hostname: {{cookiecutter.project_slug}}
     #     environment:
     #         DJANGO_SETTINGS_MODULE: 'config.settings'
     #     # command: /usr/local/bin/gunicorn config.wsgi:application -w 2 -b :8000
     #     # command: python3 manage.py runserver 0.0.0.0:8000
-    #     labels:
-    #     - "traefik.enable=false"
-    #     - "traefik.docker.network=traefik-net"
-    #     - "traefik.http.routers.api.rule=Host(`example.com`)"
-    #     - "traefik.http.routers.api.entrypoints=https"
-    #     - "traefik.http.routers.api.tls.certresolver=ssl"
-    #     - "traefik.http.services.api.loadbalancer.server.port=8000"
-    
+
+{%- if cookiecutter.use_postgres == "y" %}
+
     postgres:
         << : *default
-        image: postgres:13.4
-        container_name: postgres
+        image: postgres:16
+        container_name: {{cookiecutter.project_slug}}-postgres
         hostname: postgres
         ports:
-            - "5432:5432"
+            - "127.0.0.1:5432:5432"
         volumes:
             - postgres-data:/var/lib/postgresql/data/
         environment:
             - POSTGRES_DB={{cookiecutter.project_slug}}
             - POSTGRES_USER=dev
             - POSTGRES_PASSWORD=dev
-
+{%- endif %}
 
     redis:
         <<: *default
-        image: 'bitnami/redis:6.2.3'
+        image: redis:7
         ports:
-            - 6379:6379
+            - "127.0.0.1:6379:6379"
         hostname: redis
-        container_name: redis
-        environment:
-            - REDIS_PASS=dev
+        container_name: {{cookiecutter.project_slug}}-redis
+        command: redis-server --requirepass dev
         volumes:
-            - 'redis-data:/bitnami/redis/data'
+            - 'redis-data:/data'

@@ -10,7 +10,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('v1/', include('{{cookiecutter.project_slug}}.core.authx.urls')),
-    # APPEND_NEW_URL #
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -18,7 +18,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': LOG_DIR + '/db.log',
             'formatter': 'verbose',
-            'maxBytes': 10000,
+            'maxBytes': 10_000_000,
             'backupCount': 3,
         },
         'error-file': {
@@ -26,7 +26,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': LOG_DIR + '/error.log',
             'formatter': 'verbose',
-            'maxBytes': 10000,
+            'maxBytes': 10_000_000,
             'backupCount': 3,
         },
         'info-file': {
@@ -34,7 +34,7 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': LOG_DIR + '/info.log',
             'formatter': 'verbose',
-            'maxBytes': 10000,
+            'maxBytes': 10_000_000,
             'backupCount': 3,
         },
         'console': {
