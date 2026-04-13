@@ -110,3 +110,5 @@ dbs/*
 staticfiles/
 media/
 tmp/
+
+env/local.env
