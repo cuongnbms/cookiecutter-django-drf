@@ -16,7 +16,7 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
 
-RUN uv run python3 manage.py collectstatic --noinput
+RUN STAGE=build uv run python3 manage.py collectstatic --noinput
 
 # ── Runtime ──────────────────────────────────────────────
 FROM python:3.12-slim
