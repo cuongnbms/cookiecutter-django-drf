@@ -40,6 +40,9 @@ dev = [
     "pytest-django==4.12.0",
     "pytest-xdist==3.8.0",
     "ruff==0.11.8",
+    {%- if cookiecutter.use_dramatiq == "y" %}
+    "watchdog[watchmedo]==6.0.0",
+    {%- endif %}
 ]
 
 [tool.ruff]
@@ -62,4 +65,4 @@ known-first-party = ["{{cookiecutter.project_slug}}", "common", "config"]
 {%- if cookiecutter.use_dramatiq == "y" %}
 django-dramatiq = { git = "https://github.com/cuongnbms/django_dramatiq", rev = "v1.1.3" }
 {%- endif %}
-django-admin-extended = { git = "https://github.com/cuongnbms/django-admin-extended.git", rev = "v5.1.6" }
+django-admin-extended = { git = "https://github.com/cuongnbms/django-admin-extended.git", rev = "v6.0.1" }
