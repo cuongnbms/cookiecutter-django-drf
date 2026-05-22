@@ -1,6 +1,3 @@
-from ..base import env, BASE_DIR
-LOG_DIR = env('LOG_DIR', default=str(BASE_DIR.path('logs')))
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -13,56 +10,22 @@ LOGGING = {
         },
     },
     'handlers': {
-        'db-file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_DIR + '/db.log',
-            'formatter': 'verbose',
-            'maxBytes': 10_000_000,
-            'backupCount': 3,
-        },
-        'error-file': {
-            'level': 'WARNING',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_DIR + '/error.log',
-            'formatter': 'verbose',
-            'maxBytes': 10_000_000,
-            'backupCount': 3,
-        },
-        'info-file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_DIR + '/info.log',
-            'formatter': 'verbose',
-            'maxBytes': 10_000_000,
-            'backupCount': 3,
-        },
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'verbose',
         },
     },
     'loggers': {
         '': {
-            'handlers': ['console', 'error-file', 'info-file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': True,
         },
-        # 'django': {
-        #     'handlers': ['console'],
-        #     'level': 'INFO',
-        #     'propagate': False,
-        # },
-        # '{{cookiecutter.project_slug}}': {
-        #     'handlers': ['console'],
-        #     'level': 'INFO',
-        #     'propagate': False,
-        # },
         # 'django.db.backends': {
-        #     'handlers': ['db-file'],
+        #     'handlers': ['console'],
         #     'level': 'DEBUG',
-        #     'propagate': True,
+        #     'propagate': False,
         # },
     },
 }

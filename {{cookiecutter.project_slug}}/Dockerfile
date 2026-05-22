@@ -26,16 +26,23 @@ ENV LANG=en_US.UTF-8
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    libpq5 && \
-    rm -rf /var/lib/apt/lists/*
+    libpq5 curl && \
+    rm -rf /var/lib/apt/lists/* && \
+    useradd --create-home --uid 1000 app
 
 WORKDIR /app
 
-COPY --from=builder /app /app
+COPY --from=builder --chown=app:app /app /app
 RUN chmod +x ./entrypoint.sh
 
 ENV PATH="/app/.venv/bin:$PATH"
 
+USER app
+
 EXPOSE 8000
 
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -fsS http://localhost:8000/healthz || exit 1
+
 ENTRYPOINT ["./entrypoint.sh"]
+CMD ["honcho", "start"]

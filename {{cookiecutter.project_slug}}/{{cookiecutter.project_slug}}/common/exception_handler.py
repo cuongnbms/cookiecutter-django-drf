@@ -19,10 +19,19 @@ def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
 
     if response is not None:
-        response.data = {
-            "code": exc.default_code,
-            "detail": response.data.get("detail", response.data),
-        }
+        code = getattr(exc, "default_code", "error")
+        if isinstance(exc, exceptions.ValidationError):
+            response.data = {
+                "code": "validation_error",
+                "detail": "Validation failed",
+                "errors": response.data,
+            }
+        else:
+            response.data = {
+                "code": code,
+                "detail": response.data.get("detail", response.data)
+                if isinstance(response.data, dict) else response.data,
+            }
     else:
         logger.exception(exc)
         data = {

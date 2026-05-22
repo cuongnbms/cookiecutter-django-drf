@@ -54,7 +54,7 @@ Located at `{{cookiecutter.project_slug}}/{{cookiecutter.project_slug}}/common/`
 
 - **`exception_handler.py`** — custom DRF exception handler returning `{code, detail}` format
 - **`models.py`** — `TimeStampedModel` (abstract base with `created_at`/`modified_at`)
-- **`pagination.py`** — `StandardPagination` (24/page) and `LargePagination` (1000/page)
+- **`pagination.py`** — `StandardPagination` (24/page, max 100)
 - **`throttling.py`** — Cloudflare-aware rate throttling
 - **`filters.py`** — custom django-filter backends
 

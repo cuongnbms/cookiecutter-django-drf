@@ -20,6 +20,7 @@ dependencies = [
     "honcho==2.0.0",
     "redis==7.4.0",
     "requests==2.33.1",
+    "sentry-sdk[django]==2.19.0",
     "tzdata==2026.1",
     {%- if cookiecutter.use_whitenoise == "y" %}
     "whitenoise==6.12.0",
@@ -37,12 +38,22 @@ dependencies = [
 dev = [
     "factory-boy==3.3.3",
     "ipython==9.12.0",
+    "pre-commit==4.0.1",
     "pytest-django==4.12.0",
     "pytest-xdist==3.8.0",
     "ruff==0.11.8",
     {%- if cookiecutter.use_dramatiq == "y" %}
     "watchdog[watchmedo]==6.0.0",
     {%- endif %}
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+addopts = "--reuse-db"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::django.utils.deprecation.RemovedInDjango60Warning",
 ]
 
 [tool.ruff]

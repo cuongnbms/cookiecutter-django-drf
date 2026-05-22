@@ -1,6 +1,8 @@
-from django.contrib.postgres.search import SearchQuery
 from django_filters import Filter
 from django_filters.constants import EMPTY_VALUES
+{% if cookiecutter.use_postgres == 'y' -%}
+from django.contrib.postgres.search import SearchQuery
+{%- endif %}
 
 
 class ListFilter(Filter):
@@ -12,6 +14,7 @@ class ListFilter(Filter):
         return super().filter(qs, value_list)
 
 
+{% if cookiecutter.use_postgres == 'y' -%}
 class FullTextSearchFilter(Filter):
     def filter(self, qs, value):
         if value in EMPTY_VALUES:
@@ -22,6 +25,7 @@ class FullTextSearchFilter(Filter):
         return qs
 
 
+{% endif -%}
 class ArrayFieldFilter(Filter):
     def filter(self, qs, value):
         if value in EMPTY_VALUES:

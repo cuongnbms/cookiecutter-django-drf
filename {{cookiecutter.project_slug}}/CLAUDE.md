@@ -39,7 +39,7 @@ pytest path/to/test.py::TestClass::test_method  # single test
 │   │   ├── exception_handler.py        # DRF exception handler → {code, detail}
 │   │   ├── filters.py                  # custom django-filter backends
 │   │   ├── models.py                   # TimeStampedModel base class
-│   │   ├── pagination.py               # StandardPagination (24/page), LargePagination (1000/page)
+│   │   ├── pagination.py               # StandardPagination (24/page, max 100)
 │   │   └── throttling.py               # Cloudflare-aware rate throttling
 │   ├── templates/
 │   └── tests/
@@ -93,9 +93,9 @@ Settings are imported in order by `config/settings/__init__.py`:
 ### Testing
 
 - **App tests** go in `apps/<app>/tests/` — keep tests next to the code they test
-- **Shared test infrastructure** lives in `{{cookiecutter.project_slug}}/tests/` — fixtures, helpers, base classes only
-- Use `ExtAPIClient` from `tests/test_helpers.py` for API tests
-- `tests/conftest.py` provides shared fixtures: `create_user`, `api_client`, `django_mixer`
+- **Shared fixtures** live in `{{cookiecutter.project_slug}}/tests/conftest.py`:
+  - `api_client` — anonymous `APIClient`
+  - `authed_client` — `APIClient` with JWT Bearer credentials; `.user` exposes the created user
 
 ### Linting
 

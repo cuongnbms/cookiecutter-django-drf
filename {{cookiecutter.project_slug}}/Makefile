@@ -1,3 +1,5 @@
+.PHONY: build install lint fix-lint run collectstatic createadmin remove-all-migrations worker
+
 build:
 	docker-compose build {{cookiecutter.project_slug}}
 

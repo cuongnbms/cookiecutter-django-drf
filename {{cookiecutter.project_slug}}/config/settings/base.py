@@ -11,7 +11,7 @@ APPS_DIR = BASE_DIR.path('{{cookiecutter.project_slug}}')
 # Get environment
 STAGE = env('STAGE', default='local')
 env.read_env(str(BASE_DIR.path('env').path(f'{STAGE.lower()}.env')))
-DEBUG = env.bool('DEBUG', True)
+DEBUG = env.bool('DEBUG', False)
 
 INSTALLED_APPS = [
     'fontawesomefree',

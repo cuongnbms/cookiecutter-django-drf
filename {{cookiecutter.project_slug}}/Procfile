@@ -1,4 +1,4 @@
-django: gunicorn config.wsgi:application -w 3 --threads=30 --timeout 1800 -b :8000
+django: gunicorn config.wsgi:application -w 3 --threads=30 --timeout 30 -b :8000
 {% if cookiecutter.use_dramatiq == "y" -%}
 worker: python3 manage.py rundramatiq --processes 2 --threads 10 --queues default low high
 # scheduler: python3 manage.py run_scheduler
