@@ -75,7 +75,7 @@ def set_django_secret_key(file_path):
 
 
 def set_flags_in_settings_files():
-    set_django_secret_key(os.path.join("env", "local.env"))
+    set_django_secret_key(os.path.join("env", "local.tmpl.env"))
     set_django_secret_key(os.path.join("env", "staging.env"))
 
 
